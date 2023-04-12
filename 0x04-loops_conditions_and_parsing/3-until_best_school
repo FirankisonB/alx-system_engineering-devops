@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
-# print a string 10 times using until loop
+# This script is displaying "Best School" 10 times
 
-i=0
-
-until false; do
-  echo "Best School"
-  ((i++))
-  if [[ $i -lt 10 ]]; then
-    continue
-  else
-    break
-  fi
+counter=0
+until [ $counter == 10 ]
+do
+    echo "Best School"
+    ((counter++))
 done

@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
-# Tell the story of passwd
+# This script displays the content of the file /etc/passwd with a story.
 
-file="/etc/passwd"
+while IFS=: read -r user
+do
+    USERNAME=$(echo "$user" | cut -f 1 -d ':')
+    PASSWORD=$(echo "$user" | cut -f 2 -d ':')
+    USER_ID=$(echo "$user" | cut -f 3 -d ':')
+    GROUP_ID=$(echo "$user" | cut -f 4 -d ':')
+    USER_INFO=$(echo "$user" | cut -f 5 -d ':')
+    HOME_DIR=$(echo "$user" | cut -f 6 -d ':')
+    COMMAND=$(echo "$user" | cut -f 7 -d ':')
 
-while IFS= read -r line; do
-  user=$(echo "$line" | cut -d ':' -f1)
-  gid=$(echo "$line" | cut -d ':' -f4)
-  dir=$(echo "$line" | cut -d ':' -f6)
-  shell=$(echo "$line" | cut -d ':' -f7)
-  uid=$(echo "$line" | cut -d ':' -f3)
-  pass=$(echo "$line" | cut -d ':' -f2)
-  info=$(echo "$line" | cut -d ':' -f5)
+    echo -n "The user $USERNAME is part of the $GROUP_ID gang, "
+    echo -n "lives in $HOME_DIR and rides $COMMAND. "
+    echo -n "$USER_ID's place is protected by the passcode $PASSWORD, "
+    echo "more info about the user here: $USER_INFO"
 
-  echo "The user $user is part of the $gid gang, lives in $dir and rides $shell. $uid's place is protected by the passcode $pass, more info about the user here: $info"
-done < "$file"
+done < "/etc/passwd"
